@@ -18,6 +18,15 @@ app.use('/public', express.static(`${__dirname}/public`));
 
 app.get('/', (req, res) => res.sendFile(`${__dirname}/view/index.html`));
 
+app.get('/api/', (req, res) => {
+  const dateObj = new Date();
+
+  res.json({
+    unix: dateObj.valueOf(),
+    utc: dateObj.toUTCString()
+  });
+});
+
 //
 
 app.listen(port, () => console.log(`Node is listening on port ${port}...`));
