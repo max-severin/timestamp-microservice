@@ -27,6 +27,30 @@ app.get('/api/', (req, res) => {
   });
 });
 
+app.get('/api/:date', (req, res) => {  
+  const dateStr = req.params.date;
+
+  if (/\d{5,}/.test(dateStr)) {
+    const dateInt = parseInt(dateStr);
+
+    res.json({
+      unix: dateInt,
+      utc: new Date(dateInt).toUTCString()
+    });
+  } else {
+    const dateObj = new Date(dateStr);
+
+    if (dateObj.toString() === 'Invalid Date') {
+      res.json({ error : 'Invalid Date' });
+    } else {
+      res.json({
+        unix: dateObj.valueOf(),
+        utc: dateObj.toUTCString()
+      });
+    }
+  }
+});
+
 //
 
 app.listen(port, () => console.log(`Node is listening on port ${port}...`));
